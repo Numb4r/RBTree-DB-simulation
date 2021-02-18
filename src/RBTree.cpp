@@ -1,3 +1,5 @@
+#ifndef __RBTREEIMP__
+#define __RBTREEIMP__
 #include "RBTree.hpp"
 
 /*                                                      Funcoes Print                                                      */
@@ -50,15 +52,15 @@ void RBTree<T>::plot() noexcept{
 }
 
 template <typename T>
-NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T &v1, T &v2)> foo)noexcept{
+NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T v1, T v2)> foo)noexcept{
     NODE<T> *pNode = root;
     
     if (!foo){
-        foo =[](T &v1,T &v2){
+        foo =[](T v1,T v2){
+            std::cout<<"A: "<<v1.ID<<" "<<v2.ID;
             return v1 == v2;
         };
     }
-    std::cout<<"Func::"<<foo(data,pNode->data)<<std::endl;
     while (pNode != Tnil && foo(data,pNode->data) != true)
         if(data > pNode->data) pNode = pNode->right;
         else pNode = pNode->left;
@@ -66,10 +68,10 @@ NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T &v1, T &v2)> foo)noex
     
 }
 template <typename T>
-T &RBTree<T>::search(const T &data,std::function<bool(T &v1,T &v2)> foo){
+T *RBTree<T>::search(const T &data,std::function<bool(T v1,T v2)> foo){
     NODE<T> *response{searchNode(data,foo)};
-    if(response == Tnil) throw "Unable to locate data";
-    return  response->data ;
+    
+    return  response != Tnil ?&response->data  : nullptr;
 }
 
 
@@ -393,3 +395,4 @@ RBTree<T> &RBTree<T>::operator=(RBTree<T> &&obj){
 }
 
 
+#endif

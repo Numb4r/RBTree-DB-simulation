@@ -53,7 +53,7 @@ class RBTree
         void inOrder(NODE<T>* n);
         void eraseTree(NODE<T>* n);
         void plot() noexcept;
-        NODE<T>* searchNode(T data,std::function<bool(T &v1,T &v2)> foo) noexcept;
+        NODE<T>* searchNode(T data,std::function<bool(T v1,T v2)> foo) noexcept;
         void copyTreeHelper(RBTree<T> destTree,RBTree<T>  srcTree,NODE<T>* nodeCopying);
     public:
         // NODE* 
@@ -61,7 +61,7 @@ class RBTree
         void insert(T data) noexcept;
         void erase(T data);
         
-        T &search(const T &data,std::function<bool(T &v1, T &v2)> foo = nullptr);
+        T *search(const T &data,std::function<bool(T v1, T v2)> foo = nullptr);
 
         //Construtores
         RBTree<T>();

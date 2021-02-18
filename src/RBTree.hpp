@@ -1,7 +1,7 @@
 #ifndef __RBTREE__
 #define __RBTREE__
-// #pragma once
 #include <iostream>
+#include <functional>
 /* 
 Esse codigo foi baseado no livro do cormen 
 Foram testados varios tipos de implemetacoes 
@@ -53,23 +53,26 @@ class RBTree
         void inOrder(NODE<T>* n);
         void eraseTree(NODE<T>* n);
         void plot() noexcept;
-
-        void copyTreeHelper(RBTree<T> srcTree,NODE<T>* nodeCopying);
+        NODE<T>* searchNode(T data,std::function<bool(T &v1,T &v2)> foo) noexcept;
+        void copyTreeHelper(RBTree<T> destTree,RBTree<T>  srcTree,NODE<T>* nodeCopying);
     public:
         // NODE* 
         void show(const show_t show = PLOT) noexcept;
         void insert(T data) noexcept;
         void erase(T data);
-        NODE<T>* search(T data)const noexcept;
+        
+        T &search(const T data,std::function<bool(T &v1, T &v2)> foo = nullptr);
+
+        //Construtores
         RBTree<T>();
         RBTree<T>(std::initializer_list<T> list);
         RBTree<T>(RBTree<T> &obj) = delete;
         RBTree<T>(RBTree<T> &&obj);
         RBTree<T> operator=(RBTree<T> &obj) = delete;
-        RBTree<T> operator=(RBTree<T> &&obj);
+        RBTree<T> &operator=(RBTree<T> &&obj);
         ~RBTree<T>();
 };
 
 
-
 #endif
+

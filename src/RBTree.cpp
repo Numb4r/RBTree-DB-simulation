@@ -1,4 +1,3 @@
-#pragma once
 #include "RBTree.hpp"
 
 /*                                                      Funcoes Print                                                      */
@@ -51,14 +50,28 @@ void RBTree<T>::plot() noexcept{
 }
 
 template <typename T>
-NODE<T>* RBTree<T>::search(T data)const noexcept{
+NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T &v1, T &v2)> foo)noexcept{
     NODE<T> *pNode = root;
-    while (pNode != Tnil && pNode->data != data)
+    
+    if (!foo){
+        foo =[](T &v1,T &v2){
+            return v1 == v2;
+        };
+        // std::swap(foo,foo2);
+    }
+    std::cout<<"Func::"<<foo(data,pNode->data)<<std::endl;
+    while (pNode != Tnil && foo(data,pNode->data) != true)
         if(data > pNode->data) pNode = pNode->right;
         else pNode = pNode->left;
     return pNode;
     
 }
+template <typename T>
+T &RBTree<T>::search(const T data,std::function<bool(T &v1,T &v2)> foo){
+    return searchNode(data,foo)->data;
+}
+
+
 template <typename T>
 void RBTree<T>::show(const show_t show)  noexcept{
     switch (show)
@@ -299,7 +312,7 @@ void RBTree<T>::eraseTree(NODE<T>* n){
 }
 template <typename T>
 void RBTree<T>::erase(T data) {
-    NODE<T>* z = this->search(data);
+    NODE<T>* z = this->searchNode(data);
     if(z == Tnil || z->data != data) {
         throw "Couldn`t find data in the tree";
         return;
@@ -342,28 +355,11 @@ void RBTree<T>::erase(T data) {
 
 /*                                                      Funcoes Remocao                                                   */
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-template <typename T>
-void RBTree<T>::copyTreeHelper(RBTree<T> srcTree,NODE<T>* nodeCopying){
 
-}
 template <typename T>
 RBTree<T>::RBTree(){
     Tnil  = new NODE<T>(BLACK);
     root = Tnil;
-}
-template <typename T>
-RBTree<T>::RBTree(RBTree<T> &&obj){
-    root = obj.root;
-    Tnil = obj.Tnil;
-    obj.Tnil = new NODE<T>(BLACK);
-}
-template <typename T>
-RBTree<T> RBTree<T>::operator=(RBTree<T> &&obj){
-    RBTree<T> tree;
-    tree.root = obj.root;
-    tree.Tnil = obj.Tnil;
-    obj.Tnil = new NODE<T>(BLACK);
-    return tree;
 }
 template <typename T>
 RBTree<T>::~RBTree(){
@@ -376,3 +372,47 @@ RBTree<T>::RBTree(std::initializer_list<T> list):RBTree<T>(){
     for (auto &&i : list)
         this->insert(i);
 }
+/*                                                      MOVE                                                               */
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+template <typename T>
+RBTree<T>::RBTree(RBTree<T> &&obj){
+    root = obj.root;
+    Tnil = obj.Tnil;
+    obj.Tnil = new NODE<T>(BLACK);
+    obj.root = obj.Tnil;
+}
+template <typename T>
+RBTree<T> &RBTree<T>::operator=(RBTree<T> &&obj){
+    
+    root = obj.root;
+    Tnil = obj.Tnil;
+    obj.Tnil = new NODE<T>(BLACK);
+    obj.root = obj.Tnil;
+    return *this;
+}
+
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                      COPY                                                   */
+// template <typename T>
+// RBTree<T>::RBTree(RBTree<T> &obj):RBTree<T>(){
+//     std::cout<<"A";
+//     copyTreeHelper(*this,obj,obj.root);
+// }
+// template <typename T>
+// RBTree<T> RBTree<T>::operator=(RBTree<T> &obj){
+//     if(!root){
+//         // this->Tnil = new NODE(BLACK);
+//         // this->root = Tnil;
+//     }
+//     copyTreeHelper(this,obj,obj.root);
+
+//     return *this;
+// }
+// template <typename T>
+// void RBTree<T>::copyTreeHelper(RBTree<T> destTree,RBTree<T> srcTree,NODE<T>* nodeCopying){
+//     if(nodeCopying == srcTree.Tnil )return;
+//     copyTreeHelper(destTree,srcTree,nodeCopying->left);
+//     destTree.insert(nodeCopying->data);
+//     copyTreeHelper(destTree,srcTree,nodeCopying->right);
+// }

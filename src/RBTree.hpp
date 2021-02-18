@@ -61,7 +61,7 @@ class RBTree
         void insert(T data) noexcept;
         void erase(T data);
         
-        T &search(const T data,std::function<bool(T &v1, T &v2)> foo = nullptr);
+        T &search(const T &data,std::function<bool(T &v1, T &v2)> foo = nullptr);
 
         //Construtores
         RBTree<T>();

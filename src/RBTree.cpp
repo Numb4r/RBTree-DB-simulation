@@ -57,7 +57,6 @@ NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T &v1, T &v2)> foo)noex
         foo =[](T &v1,T &v2){
             return v1 == v2;
         };
-        // std::swap(foo,foo2);
     }
     std::cout<<"Func::"<<foo(data,pNode->data)<<std::endl;
     while (pNode != Tnil && foo(data,pNode->data) != true)
@@ -67,8 +66,10 @@ NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T &v1, T &v2)> foo)noex
     
 }
 template <typename T>
-T &RBTree<T>::search(const T data,std::function<bool(T &v1,T &v2)> foo){
-    return searchNode(data,foo)->data;
+T &RBTree<T>::search(const T &data,std::function<bool(T &v1,T &v2)> foo){
+    NODE<T> *response{searchNode(data,foo)};
+    if(response == Tnil) throw "Unable to locate data";
+    return  response->data ;
 }
 
 
@@ -392,27 +393,3 @@ RBTree<T> &RBTree<T>::operator=(RBTree<T> &&obj){
 }
 
 
-/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-/*                                                      COPY                                                   */
-// template <typename T>
-// RBTree<T>::RBTree(RBTree<T> &obj):RBTree<T>(){
-//     std::cout<<"A";
-//     copyTreeHelper(*this,obj,obj.root);
-// }
-// template <typename T>
-// RBTree<T> RBTree<T>::operator=(RBTree<T> &obj){
-//     if(!root){
-//         // this->Tnil = new NODE(BLACK);
-//         // this->root = Tnil;
-//     }
-//     copyTreeHelper(this,obj,obj.root);
-
-//     return *this;
-// }
-// template <typename T>
-// void RBTree<T>::copyTreeHelper(RBTree<T> destTree,RBTree<T> srcTree,NODE<T>* nodeCopying){
-//     if(nodeCopying == srcTree.Tnil )return;
-//     copyTreeHelper(destTree,srcTree,nodeCopying->left);
-//     destTree.insert(nodeCopying->data);
-//     copyTreeHelper(destTree,srcTree,nodeCopying->right);
-// }

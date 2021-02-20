@@ -42,7 +42,8 @@ struct Movie{
 struct User{
     int ID;
     
-    std::list<Movie> moviesWatched;
+    std::list<Movie> moviesWatched; //A construcao faz causar um enorme overhead em tempo,mas deixarei como esta
+    
     bool operator>(User obj){
         return this->ID > obj.ID;
     }
@@ -59,6 +60,7 @@ struct User{
     User(int ID):ID(ID){}
     User(int ID,std::list<Movie> moviesWatched):ID(ID),moviesWatched(moviesWatched){}
     User()=default;
+    friend std::ostream& operator<<(std::ostream& os,const User &u);
 
 };
 

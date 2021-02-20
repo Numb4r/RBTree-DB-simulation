@@ -106,6 +106,6 @@ O tempo médio total do algorítimo, com a inserção dos filme e usuários( usa
 
 ## Referências
 
-- ⌨ [Wikipedia: Red-Black Tree] (https://en.wikipedia.org/wiki/Red-black_tree)
+- ⌨ [Wikipedia: Red-Black Tree](https://en.wikipedia.org/wiki/Red-black_tree)
 
 - 📔[Cormen, Thomas H, et al. Introduction to Algorithms. 2009.](https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844/ref=sr_1_1?dchild=1&keywords=Introduction+to+Algorithms&qid=1613858932&sr=8-1)

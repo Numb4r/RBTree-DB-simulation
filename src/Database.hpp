@@ -24,9 +24,9 @@ struct Movie{
         return(this->ID != obj.ID );
     }
     Movie()=default;
-    Movie(int id,char* name):ID(id),name(name){
+    Movie(int ID,char* name):ID(ID),name(name){
     }
-    Movie(int id):ID(ID),name(""){
+    Movie(int ID):ID(ID),name(""){
         
     }
     friend std::ostream& operator<<(std::ostream& os,const Movie &m);

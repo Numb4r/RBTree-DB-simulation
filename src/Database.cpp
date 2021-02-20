@@ -1,4 +1,4 @@
-#include "MovieManager.hpp"
+#include "Database.hpp"
 
 void Database::makeMovieTree(const char* fileName){
     const char* token="::";
@@ -42,6 +42,7 @@ void Database::makeUserTree(const char* fileName){
     int dumb,dumb2;
     char line[20];
     userTree.insert(User(1));
+    bool userNotFound{false};
     while (!feof(file))
     {
         fscanf(file,"%d::%d::%d::%d",&userId,&movieId,&dumb,&dumb2);
@@ -49,18 +50,13 @@ void Database::makeUserTree(const char* fileName){
         User* us = userTree.search(User(userId),[](User v1,User v2){
             return v1.ID == v2.ID;
         });
-        // if (!us)
-        // {
-            // std::cout<<userId<<std::endl;
-            userTree.insert(User(userId));
-            // us = userTree.search(User(userId),[](User v1,User v2){
-            //     return v1.ID == v2.ID;
-            // });            
-        // }
-        /*
-        As linhas abaixo tornam o codigo extremamente lento
-        Nao e minha culpa, o algoritimo se comporta dessa forma
-        */
+
+        if (!us)
+        {
+            userNotFound = true;
+            us = new User(userId);
+        }
+        
        /*
        TODO:
        Fazer teste de tempo para:
@@ -70,12 +66,16 @@ void Database::makeUserTree(const char* fileName){
        leitura apenas dos usuarios com criacao de lista dos filmes(escrita randomica com busca)
        */
 
-        // Movie *movie = movieTree.search(Movie(movieId,""),[](Movie v1,Movie v2){
-        //         return v1.ID == v2.ID;
-        // });
-        // if(movie){
-        //     us->moviesWatched.push_back(*movie);
-        // }
+        Movie *movie = movieTree.search(Movie(movieId,""),[](Movie v1,Movie v2){
+                return v1.ID == v2.ID;
+        });
+        if(movie){
+            us->moviesWatched.push_back(*movie); //Copy
+        }
+        if(userNotFound){
+            userTree.insert(*us); //Copy
+            userNotFound = false;
+        }
         
     }
     fclose(file);

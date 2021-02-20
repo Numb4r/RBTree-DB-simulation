@@ -57,7 +57,6 @@ NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T v1, T v2)> foo)noexce
     
     if (!foo){
         foo =[](T v1,T v2){
-            std::cout<<"A: "<<v1.ID<<" "<<v2.ID;
             return v1 == v2;
         };
     }

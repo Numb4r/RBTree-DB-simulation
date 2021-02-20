@@ -47,9 +47,7 @@ void Database::makeUserTree(const char* fileName){
     {
         fscanf(file,"%d::%d::%d::%d",&userId,&movieId,&dumb,&dumb2);
 
-        User* us = userTree.search(User(userId),[](User v1,User v2){
-            return v1.ID == v2.ID;
-        });
+        User* us = userTree.search(User(userId));
 
         if (!us)
         {
@@ -57,24 +55,15 @@ void Database::makeUserTree(const char* fileName){
             us = new User(userId);
         }
         
-       /*
-       TODO:
-       Fazer teste de tempo para:
-       leitura apenas dos filmes (escrita sequencial)
-       leitura apenas dos usuarios(escrita sequencial)
-       leitura apenas dos usuarios(escrita randomica com busca)
-       leitura apenas dos usuarios com criacao de lista dos filmes(escrita randomica com busca)
-       */
-
-        Movie *movie = movieTree.search(Movie(movieId,""),[](Movie v1,Movie v2){
-                return v1.ID == v2.ID;
-        });
+    
+        Movie *movie = movieTree.search(Movie(movieId));
         if(movie){
             us->moviesWatched.push_back(*movie); //Copy
         }
         if(userNotFound){
             userTree.insert(*us); //Copy
             userNotFound = false;
+            delete us;
         }
         
     }

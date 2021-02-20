@@ -51,27 +51,6 @@ void RBTree<T>::plot() noexcept{
     PlotRecurse(root,"",false);
 }
 
-template <typename T>
-NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T v1, T v2)> foo)noexcept{
-    NODE<T> *pNode = root;
-    
-    if (!foo){
-        foo =[](T v1,T v2){
-            return v1 == v2;
-        };
-    }
-    while (pNode != Tnil && foo(data,pNode->data) != true)
-        if(data > pNode->data) pNode = pNode->right;
-        else pNode = pNode->left;
-    return pNode;
-    
-}
-template <typename T>
-T *RBTree<T>::search(const T &data,std::function<bool(T v1,T v2)> foo){
-    NODE<T> *response{searchNode(data,foo)};
-    
-    return  response != Tnil ?&response->data  : nullptr;
-}
 
 
 template <typename T>
@@ -95,6 +74,30 @@ void RBTree<T>::show(const show_t show)  noexcept{
 }
 /*                                                      Funcoes Print                                                      */
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                      Funcoes de busca                                                  */
+template <typename T>
+NODE<T>* RBTree<T>::searchNode(T data,std::function<bool(T v1, T v2)> foo)noexcept{
+    NODE<T> *pNode = root;
+    
+    if (!foo){
+        foo =[](T v1,T v2){
+            return v1 == v2;
+        };
+    }
+    while (pNode != Tnil && foo(data,pNode->data) != true)
+        if(data > pNode->data) pNode = pNode->right;
+        else pNode = pNode->left;
+    return pNode;
+    
+}
+template <typename T>
+T *RBTree<T>::search(const T &data,std::function<bool(T v1,T v2)> foo){
+    NODE<T> *response{searchNode(data,foo)};
+    
+    return  response != Tnil ?&response->data  : nullptr;
+}
+/*                                                      Funcoes de Busca                                                    */
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /*                                                      Funcoes Auxiliares                                                  */
 template <typename T>
 void RBTree<T>::NDReplace(NODE<T>* x,NODE<T>* y){
@@ -186,16 +189,17 @@ void RBTree<T>::InsertRepairTree(NODE<T>* pNode){
             }
         }else{//left
             pAux = pNode->parent->parent->right;
-            if(pAux->color == RED){
+            if(pAux->color == RED){ //case 1
                 pAux->color = BLACK;
                 pNode->parent->color = BLACK;
                 pNode->parent->parent->color = RED;
                 pNode = pNode->parent->parent;
             }else{
-                if(pNode ==  pNode->parent->right){
+                if(pNode ==  pNode->parent->right){//case 2
                     pNode = pNode->parent;
                     RotateLeft(pNode);
                 }
+                //case 3
                 pNode->parent->color = BLACK;
                 pNode->parent->parent->color = RED;
                 RotateRight(pNode->parent->parent);
@@ -225,7 +229,6 @@ void RBTree<T>::insert(T data) noexcept{
     pNode->parent= pParent;
     if (pParent == Tnil )
     {
-        /*Caso seja o primeiro item,sera preto e nao precisara fazer nada*/
         root = pNode;
     }else{
         if(pNode->data > pParent->data)
@@ -239,6 +242,10 @@ void RBTree<T>::insert(T data) noexcept{
 /*                                                      Funcoes Insersao                                                  */
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*                                                      Funcoes Remocao                                                   */
+/*
+    As funcoes de remocao sao muito sensiveis, entao no quis mexer muito
+*/
+
 template <typename T>
 void RBTree<T>::DeleteRepairTree(NODE<T>* x){
     NODE<T>* w;
@@ -330,7 +337,7 @@ void RBTree<T>::erase(T data) {
     }else if(z->right == Tnil){
         x=z->left;
         NDReplace(z,z->left);
-        if(z == root) root = x;
+        if(z == root) root = x; // Caso z seja o root, isso fara q o root n perca a referencia do que deveria ser a raiz
     }else{//Possui 2 filhos
         y = TreeMinimum(z->right);
         y_original_color = y->color;

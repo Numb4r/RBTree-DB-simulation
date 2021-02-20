@@ -8,6 +8,8 @@ Foram testados varios tipos de implemetacoes
 A menos complexa, e de melhor manutencao se baseia no fato que cada
 folha e qualquer outro node que aponte para NULL(nullptr) na realidade
 aponte para um ponto na memoria que seja do mesmo tipo do node,com cor preta
+Alem disso, o unico algoritimo de remocao que funciona e baseado no livro do cormen,
+que usa o Tnil
 
 */
 
@@ -37,6 +39,7 @@ class RBTree
     
     private:
         NODE<T> *root;
+
         NODE<T> *Tnil;
 
         NODE<T>* TreeMinimum(NODE<T>* node);

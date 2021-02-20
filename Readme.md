@@ -100,6 +100,12 @@ Os resultados são os esperados da estrutura árvore binaria balanceada. As cons
 
 Em uma operação que executa 100 000 buscas aleatórias na árvore que armazena os filmes, com 3883 entradas, o tempo médio de execução do algorítimo é de 0.07s. Isso se da pelo fato que a busca ser da ordem de ``O(Log n)``, o que demostra a eficiência da estrutura Red-Black Tree nesse tipo de operação.
 
-Na inserção dos usuários, com 6 040 entradas, foi feito uma verificação para que não ocorresse uma possível duplicata nas entradas. Isso não foi feito na inserção dos filmes, e serve apenas para fins de teste. A validação foi feita através de uma busca na árvore para verificar se o índice não esta presente. O resultado final foi insatisfatório, com um tempo de execução médio de 7.35s. Caso não fosse feito a verificação, o tempo de execução médio seria de 3.16s (o método de extração dos dados dos usuários não foi o mesmo usado na extração dos filmes). Com isso, se pode concluir que a melhor forma de evitar duplicatas é implementando diretamente na árvore, coisa que a estrutura base da Red Black Tree não faz.
+Na inserção dos usuários, com 6 040 entradas, foi feito uma verificação para que não ocorresse uma possível duplicata nas entradas. Isso não foi feito na inserção dos filmes, e serve apenas para fins de teste. A validação foi feita através de uma busca na árvore para verificar se o índice não esta presente. O resultado final foi insatisfatório, com um tempo de execução médio de 8.66s. Caso não fosse feito a verificação, o tempo de execução médio seria de 3.04s. Com isso, se pode concluir que a melhor forma de evitar duplicatas é implementando diretamente na árvore, coisa que a estrutura base da Red Black Tree não faz.
 
 O tempo médio total do algorítimo, com a inserção dos filme e usuários( usando a verificação e buscando todos os filmes que o usuário já assistiu) é de 1317.20s. Com isso, pode se dizer que, embora muito eficientes, árvores binarias não são bons substitutos para um banco de dados convencional. Mesmo que a verificação fosse implementada diretamente na árvore, o resultado deixa muito a desejar. Mesmo assim, a estrutura Red-Black Tree se mostrou muito eficiente que uma estrutura simples de array.
+
+## Referências
+
+- ⌨ [Wikipedia: Red-Black Tree] (https://en.wikipedia.org/wiki/Red-black_tree)
+
+- 📔[Cormen, Thomas H, et al. Introduction to Algorithms. 2009.](https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844/ref=sr_1_1?dchild=1&keywords=Introduction+to+Algorithms&qid=1613858932&sr=8-1)
